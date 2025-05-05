@@ -70,12 +70,21 @@ function update() {
     });
 }
 
-// Generar obstáculos en diferentes alturas
 function spawnObstacle() {
-    var yPosition = Math.random() < 0.5 ? 500 : 300; // 50% de probabilidad para el suelo o aire
+    var yPosition = Math.random() < 0.5 ? 500 : 300; // Posiciones en el suelo o aire
     var obstacle = obstacles.create(800, yPosition, 'obstacle');
-    obstacle.setGravityY(300);
+    obstacle.setGravityY(300); // Da caída a los obstáculos
     obstacle.setCollideWorldBounds(true);
+    obstacle.setVelocityX(-200); // Movimiento hacia la izquierda
+
+    // Tiempo aleatorio para el siguiente obstáculo
+    var randomDelay = Math.random() * 2000 + 1000; // Entre 1000ms y 3000ms
+    this.time.addEvent({
+        delay: randomDelay,
+        callback: spawnObstacle,
+        callbackScope: this,
+        loop: false
+    });
 }
 
 // Función para manejar la colisión
