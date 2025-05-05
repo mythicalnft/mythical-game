@@ -21,15 +21,15 @@ var obstacles;
 var cursors;
 
 function preload() {
-    this.load.image('player', 'player.png');
-    this.load.image('obstacle', 'obstacle.png');
+    this.load.image('player', 'player.png'); // Asegúrate de que la ruta sea correcta
+    this.load.image('obstacle', 'obstacle.png'); // Asegúrate de que la ruta sea correcta
 }
 
 function create() {
     // Crear el jugador
     player = this.physics.add.sprite(100, 500, 'player');
     player.setCollideWorldBounds(true);
-    player.setBounce(0.2); // Agrega rebote para interacción con obstáculos
+    player.setBounce(0.2); // Agregar rebote para interacción con obstáculos
 
     // Configuración de los obstáculos
     obstacles = this.physics.add.group();
@@ -44,6 +44,13 @@ function create() {
 
     // Configurar controles
     cursors = this.input.keyboard.createCursorKeys();
+    
+    // Detectar clic izquierdo para saltar
+    this.input.on('pointerdown', function (pointer) {
+        if (pointer.leftButtonDown()) {
+            jump();
+        }
+    });
 
     // Colisiones entre el jugador y los obstáculos
     this.physics.add.collider(player, obstacles, hitObstacle, null, this);
@@ -52,7 +59,7 @@ function create() {
 function update() {
     // Movimiento del jugador
     if (cursors.up.isDown && player.body.touching.down) {
-        player.setVelocityY(-300); // Salto
+        jump();
     }
 
     if (cursors.left.isDown) {
@@ -81,4 +88,11 @@ function hitObstacle(player, obstacle) {
     player.setAlpha(0.5); // Reducir opacidad como efecto visual
 }
 
+function jump() {
+    if (player.body.touching.down) {
+        player.setVelocityY(-300); // Salto
+    }
+}
+
 var game = new Phaser.Game(config);
+
