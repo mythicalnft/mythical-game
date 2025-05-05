@@ -70,9 +70,10 @@ function update() {
     });
 }
 
-// Función para generar obstáculos
+// Generar obstáculos en diferentes alturas
 function spawnObstacle() {
-    var obstacle = obstacles.create(800, 500, 'obstacle');
+    var yPosition = Math.random() < 0.5 ? 500 : 300; // 50% de probabilidad para el suelo o aire
+    var obstacle = obstacles.create(800, yPosition, 'obstacle');
     obstacle.setGravityY(300);
     obstacle.setCollideWorldBounds(true);
 }
