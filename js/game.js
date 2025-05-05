@@ -15,7 +15,7 @@ class MyGame extends Phaser.Scene {
         this.player = this.physics.add.sprite(100, 300, 'player');
         this.player.setCollideWorldBounds(true);
 
-        // Crear el grupo de obstáculos
+        // Crear el grupo de obstáculos (usando `this` para asegurar que se refiera a la escena actual)
         this.obstacles = this.physics.add.group();
 
         // Crear obstáculos periódicamente
@@ -31,7 +31,7 @@ class MyGame extends Phaser.Scene {
 
         // Colisión entre el jugador y los obstáculos
         this.physics.add.collider(this.player, this.obstacles, () => {
-            this.scene.restart();
+            this.scene.restart(); // Reiniciar el juego si colisiona
         }, null, this);
     }
 
@@ -68,3 +68,4 @@ const config = {
 };
 
 const game = new Phaser.Game(config);
+
