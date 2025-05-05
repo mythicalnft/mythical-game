@@ -54,20 +54,18 @@ function create() {
 function update() {
     // Movimiento del jugador (salto)
     if (cursors.up.isDown && player.body.touching.down) {
-        player.setVelocityY(-300);
+        player.setVelocityY(-300); // Salto
     }
 
-    // Hacer que los obstáculos se muevan hacia la izquierda
-    obstacles.children.iterate(function(obstacle) {
-        if (obstacle) {
-            obstacle.setVelocityX(-200);
-
-            // Destruir el obstáculo si sale de la pantalla
-            if (obstacle.x < 0) {
-                obstacle.destroy();
-            }
-        }
-    });
+    // Movimiento del jugador hacia la izquierda y derecha
+    if (cursors.left.isDown) {
+        player.setVelocityX(-200); // Mover a la izquierda
+    }
+    else if (cursors.right.isDown) {
+        player.setVelocityX(200); // Mover a la derecha
+    } else {
+        player.setVelocityX(0); // Si no se presionan teclas, detener el movimiento horizontal
+    }
 }
 
 function spawnObstacle() {
