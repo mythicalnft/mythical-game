@@ -29,6 +29,19 @@ button:hover {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     width: 200px;
 }
+.card.common {
+    border-color: #666;
+}
+.card.legendary {
+    border-color: #ffd700;
+    background-color: #fffacd;
+}
+.card button {
+    background-color: #007bff;
+}
+.card button:hover {
+    background-color: #0056b3;
+}
 #walletStatus {
     color: #555;
 }
