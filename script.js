@@ -67,6 +67,10 @@ function closeModal() {
     battleModal.style.display = 'none';
 }
 
+function updateTokenCount() {
+    tokenCount.textContent = missionState.rewards.toFixed(1);
+}
+
 function selectCard(cardId) {
     const card = defaultCards.find(c => c.id === cardId);
     const enemy = defaultCards[Math.floor(Math.random() * defaultCards.length)];
@@ -79,7 +83,7 @@ function selectCard(cardId) {
         missionState.enemiesDefeated++;
         if (missionState.enemiesDefeated >= missionState.enemiesToDefeat) {
             missionState.rewards += missionState.rewardAmount;
-            tokenCount.textContent = missionState.rewards.toFixed(1); // Aseguramos que se muestre el valor correcto
+            updateTokenCount(); // Actualizamos el contador inmediatamente
             showModal(`¡Misión completada! Has ganado ${missionState.rewardAmount} MythicToken. Total acumulado: ${missionState.rewards.toFixed(1)} MythicToken.`);
             missionState.currentMission = null;
             missionState.enemiesToDefeat = 0;
@@ -103,3 +107,4 @@ function startMission(missionName, enemiesToDefeat, rewardAmount) {
 
 connectWalletButton.addEventListener('click', connectWallet);
 walletStatus.textContent = 'Haz clic en "Conectar Billetera" para empezar.';
+updateTokenCount(); // Inicializamos el contador
