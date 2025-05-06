@@ -10,13 +10,25 @@
     <h1>Mythical TCG: Leyendas Mexicanas</h1>
     <button id="connectWallet">Conectar Billetera (Lace)</button>
     <p id="walletStatus">Billetera no conectada</p>
+    <div id="rewards">
+        <h2>Recompensas</h2>
+        <p>Total MythicToken: <span id="tokenCount">0</span></p>
+    </div>
     <div id="cards">
         <h2>Tus Cartas</h2>
         <div id="cardList"></div>
     </div>
     <div id="missions">
         <h2>Misiones</h2>
-        <p>El Chaneque del Humedal: Protege el ecosistema derrotando 3 enemigos. (Recompensa: 1 MythicToken)</p>
+        <p>El Chaneque del Humedal: Protege el ecosistema derrotando 3 enemigos. (Recompensa: 1 MythicToken) <button onclick="startMission('Chaneque', 3, 1)">Iniciar Misión</button></p>
+        <p>El Guardián del Axolotl: Salva el lago derrotando 5 enemigos. (Recompensa: 2 MythicToken) <button onclick="startMission('Axolotl', 5, 2)">Iniciar Misión</button></p>
+        <p>La Danza del Tlaloc: Invoca la lluvia derrotando 4 enemigos. (Recompensa: 1.5 MythicToken) <button onclick="startMission('Tlaloc', 4, 1.5)">Iniciar Misión</button></p>
+    </div>
+    <div id="battleModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <p id="battleResult"></p>
+        </div>
     </div>
     <script src="./script.js"></script>
 </body>
