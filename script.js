@@ -1,11 +1,24 @@
 const walletStatus = document.getElementById('walletStatus');
 const cardList = document.getElementById('cardList');
 const connectWalletButton = document.getElementById('connectWallet');
+const tokenCount = document.getElementById('tokenCount');
+const battleModal = document.getElementById('battleModal');
+const battleResult = document.getElementById('battleResult');
 
 const defaultCards = [
-    { id: 1, name: "Chaneque", attack: 30, defense: 20, magic: 40, rarity: "Común" },
-    { id: 2, name: "Quetzalcóatl", attack: 80, defense: 60, magic: 90, rarity: "Legendaria" }
+    { id: 1, name: "Chaneque", attack: 30, defense: 20, magic: 40, rarity: "Común", image: "https://via.placeholder.com/200x150?text=Chaneque" },
+    { id: 2, name: "Quetzalcóatl", attack: 80, defense: 60, magic: 90, rarity: "Legendaria", image: "https://via.placeholder.com/200x150?text=Quetzalcoatl" },
+    { id: 3, name: "Axolotl Místico", attack: 50, defense: 70, magic: 60, rarity: "Rara", image: "https://via.placeholder.com/200x150?text=Axolotl" },
+    { id: 4, name: "Tlaloc, Señor de la Lluvia", attack: 70, defense: 50, magic: 85, rarity: "Épica", image: "https://via.placeholder.com/200x150?text=Tlaloc" }
 ];
+
+let missionState = {
+    currentMission: null,
+    enemiesToDefeat: 0,
+    enemiesDefeated: 0,
+    rewards: 0,
+    rewardAmount: 0
+};
 
 async function connectWallet() {
     try {
@@ -35,6 +48,7 @@ function displayCards(cards) {
         const cardDiv = document.createElement('div');
         cardDiv.className = `card ${card.rarity.toLowerCase()}`;
         cardDiv.innerHTML = `
+            <img src="${card.image}" alt="${card.name}">
             <h3>${card.name}</h3>
             <p>Ataque: ${card.attack} | Defensa: ${card.defense} | Magia: ${card.magic}</p>
             <p>Rareza: ${card.rarity}</p>
@@ -44,6 +58,15 @@ function displayCards(cards) {
     });
 }
 
+function showModal(message) {
+    battleResult.textContent = message;
+    battleModal.style.display = 'block';
+}
+
+function closeModal() {
+    battleModal.style.display = 'none';
+}
+
 function selectCard(cardId) {
     const card = defaultCards.find(c => c.id === cardId);
     const enemy = defaultCards[Math.floor(Math.random() * defaultCards.length)];
@@ -51,7 +74,31 @@ function selectCard(cardId) {
     const result = card[attribute] > enemy[attribute]
         ? `¡Ganaste! ${card.name} (${attribute}: ${card[attribute]}) venció a ${enemy.name} (${attribute}: ${enemy[attribute]})`
         : `Perdiste. ${enemy.name} (${attribute}: ${enemy[attribute]}) venció a ${card.name} (${attribute}: ${card[attribute]})`;
-    walletStatus.textContent = result;
+    
+    if (missionState.currentMission && result.includes('¡Ganaste!')) {
+        missionState.enemiesDefeated++;
+        if (missionState.enemiesDefeated >= missionState.enemiesToDefeat) {
+            missionState.rewards += missionState.rewardAmount;
+            tokenCount.textContent = missionState.rewards;
+            showModal(`¡Misión completada! Has ganado ${missionState.rewardAmount} MythicToken. Total acumulado: ${missionState.rewards} MythicToken.`);
+            missionState.currentMission = null;
+            missionState.enemiesToDefeat = 0;
+            missionState.enemiesDefeated = 0;
+            missionState.rewardAmount = 0;
+        } else {
+            showModal(`${result} Enemigos derrotados: ${missionState.enemiesDefeated}/${missionState.enemiesToDefeat}`);
+        }
+    } else {
+        showModal(result);
+    }
+}
+
+function startMission(missionName, enemiesToDefeat, rewardAmount) {
+    missionState.currentMission = missionName;
+    missionState.enemiesToDefeat = enemiesToDefeat;
+    missionState.enemiesDefeated = 0;
+    missionState.rewardAmount = rewardAmount;
+    walletStatus.textContent = `Misión iniciada: ${missionName === 'Chaneque' ? 'El Chaneque del Humedal' : missionName === 'Axolotl' ? 'El Guardián del Axolotl' : 'La Danza del Tlaloc'}. Derrota ${enemiesToDefeat} enemigos.`;
 }
 
 connectWalletButton.addEventListener('click', connectWallet);
