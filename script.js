@@ -6,10 +6,10 @@ const battleModal = document.getElementById('battleModal');
 const battleResult = document.getElementById('battleResult');
 
 const defaultCards = [
-    { id: 1, name: "Chaneque", attack: 30, defense: 20, magic: 40, rarity: "Común", image: "https://via.placeholder.com/200x150?text=Chaneque" },
-    { id: 2, name: "Quetzalcóatl", attack: 80, defense: 60, magic: 90, rarity: "Legendaria", image: "https://via.placeholder.com/200x150?text=Quetzalcoatl" },
-    { id: 3, name: "Axolotl Místico", attack: 50, defense: 70, magic: 60, rarity: "Rara", image: "https://via.placeholder.com/200x150?text=Axolotl" },
-    { id: 4, name: "Tlaloc, Señor de la Lluvia", attack: 70, defense: 50, magic: 85, rarity: "Épica", image: "https://via.placeholder.com/200x150?text=Tlaloc" }
+    { id: 1, name: "Chaneque", attack: 30, defense: 20, magic: 40, rarity: "Común", image: "https://picsum.photos/200/150?random=1" },
+    { id: 2, name: "Quetzalcóatl", attack: 80, defense: 60, magic: 90, rarity: "Legendaria", image: "https://picsum.photos/200/150?random=2" },
+    { id: 3, name: "Axolotl Místico", attack: 50, defense: 70, magic: 60, rarity: "Rara", image: "https://picsum.photos/200/150?random=3" },
+    { id: 4, name: "Tlaloc, Señor de la Lluvia", attack: 70, defense: 50, magic: 85, rarity: "Épica", image: "https://picsum.photos/200/150?random=4" }
 ];
 
 let missionState = {
@@ -79,8 +79,8 @@ function selectCard(cardId) {
         missionState.enemiesDefeated++;
         if (missionState.enemiesDefeated >= missionState.enemiesToDefeat) {
             missionState.rewards += missionState.rewardAmount;
-            tokenCount.textContent = missionState.rewards;
-            showModal(`¡Misión completada! Has ganado ${missionState.rewardAmount} MythicToken. Total acumulado: ${missionState.rewards} MythicToken.`);
+            tokenCount.textContent = missionState.rewards.toFixed(1); // Aseguramos que se muestre el valor correcto
+            showModal(`¡Misión completada! Has ganado ${missionState.rewardAmount} MythicToken. Total acumulado: ${missionState.rewards.toFixed(1)} MythicToken.`);
             missionState.currentMission = null;
             missionState.enemiesToDefeat = 0;
             missionState.enemiesDefeated = 0;
@@ -103,4 +103,3 @@ function startMission(missionName, enemiesToDefeat, rewardAmount) {
 
 connectWalletButton.addEventListener('click', connectWallet);
 walletStatus.textContent = 'Haz clic en "Conectar Billetera" para empezar.';
-
