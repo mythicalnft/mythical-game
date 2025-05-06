@@ -1,18 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Mythical Game</title>
-    <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
-    <script src="game.js" defer></script>
-    <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            background: #87CEEB;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mythical TCG: Leyendas Mexicanas</title>
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+    <h1>Mythical TCG: Leyendas Mexicanas</h1>
+    <button id="connectWallet">Conectar Billetera (Lace)</button>
+    <p id="walletStatus">Billetera no conectada</p>
+    <div id="cards">
+        <h2>Tus Cartas</h2>
+        <div id="cardList"></div>
+    </div>
+    <div id="missions">
+        <h2>Misiones</h2>
+        <p>El Chaneque del Humedal: Protege el ecosistema derrotando 3 enemigos. (Recompensa: 1 MythicToken)</p>
+    </div>
+    <script src="./script.js"></script>
 </body>
 </html>
