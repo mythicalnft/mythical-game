@@ -5,12 +5,7 @@ const tokenCount = document.getElementById('tokenCount');
 const battleModal = document.getElementById('battleModal');
 const battleResult = document.getElementById('battleResult');
 
-const defaultCards = [
-    { id: 1, name: "Chaneque", attack: 30, defense: 20, magic: 40, rarity: "Común", image: "https://picsum.photos/200/150?random=1" },
-    { id: 2, name: "Quetzalcóatl", attack: 80, defense: 60, magic: 90, rarity: "Legendaria", image: "https://picsum.photos/200/150?random=2" },
-    { id: 3, name: "Axolotl Místico", attack: 50, defense: 70, magic: 60, rarity: "Rara", image: "https://picsum.photos/200/150?random=3" },
-    { id: 4, name: "Tlaloc, Señor de la Lluvia", attack: 70, defense: 50, magic: 85, rarity: "Épica", image: "https://picsum.photos/200/150?random=4" }
-];
+let defaultCards = []; // Las cartas ahora vendrán del backend
 
 let missionState = {
     currentMission: null,
@@ -31,9 +26,26 @@ async function connectWallet() {
             throw new Error('No se encontraron direcciones en la billetera.');
         }
         walletStatus.textContent = `Billetera conectada: ${addresses[0].slice(0, 10)}...`;
+
+        // Obtener NFTs desde el backend
+        const response = await fetch(`https://mythical-tcg-backend.vercel.app/api/nfts?address=${addresses[0]}`);
+        const nfts = await response.json();
+        if (nfts.length === 0) {
+            cardList.innerHTML = '<p>No se encontraron NFTs con tu Policy ID.</p>';
+            return;
+        }
+        defaultCards = nfts.map((nft, index) => ({
+            id: index + 1,
+            name: nft.asset_name || `NFT ${index + 1}`,
+            attack: 50,
+            defense: 50,
+            magic: 50,
+            rarity: "Rara",
+            image: "https://picsum.photos/200/150?random=" + (index + 1) // Cambiar por la URL real de la imagen del NFT si existe
+        }));
         displayCards(defaultCards);
     } catch (error) {
-        console.error('Error al conectar la billetera:', error);
+        console.error('Error al conectar la billetera o cargar NFTs:', error);
         walletStatus.textContent = `Error: ${error.message}`;
     }
 }
@@ -83,7 +95,7 @@ function selectCard(cardId) {
         missionState.enemiesDefeated++;
         if (missionState.enemiesDefeated >= missionState.enemiesToDefeat) {
             missionState.rewards += missionState.rewardAmount;
-            updateTokenCount(); // Actualizamos el contador inmediatamente
+            updateTokenCount();
             showModal(`¡Misión completada! Has ganado ${missionState.rewardAmount} MythicToken. Total acumulado: ${missionState.rewards.toFixed(1)} MythicToken.`);
             missionState.currentMission = null;
             missionState.enemiesToDefeat = 0;
@@ -107,4 +119,4 @@ function startMission(missionName, enemiesToDefeat, rewardAmount) {
 
 connectWalletButton.addEventListener('click', connectWallet);
 walletStatus.textContent = 'Haz clic en "Conectar Billetera" para empezar.';
-updateTokenCount(); // Inicializamos el contador
+updateTokenCount();
