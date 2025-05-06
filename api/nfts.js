@@ -1,8 +1,13 @@
 const Blockfrost = require('@blockfrost/blockfrost-js');
 
 module.exports = async (req, res) => {
+    // Agregar encabezados de CORS
+    res.setHeader('Access-Control-Allow-Origin', 'https://mythicalnft.github.io');
+    res.setHeader('Access-Control-Allow-Methods', 'GET');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
     const blockfrost = new Blockfrost({
-        projectId: 'YOUR_BLOCKFROST_API_KEY', // Reemplaza con tu API Key de Blockfrost
+        projectId: 'YOUR_BLOCKFROST_API_KEY', // Asegúrate de que tu API Key de Blockfrost esté aquí
         network: 'preprod'
     });
 
