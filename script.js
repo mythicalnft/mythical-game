@@ -5,7 +5,7 @@ const tokenCount = document.getElementById('tokenCount');
 const battleModal = document.getElementById('battleModal');
 const battleResult = document.getElementById('battleResult');
 
-let defaultCards = []; // Las cartas ahora vendrán del backend
+let defaultCards = [];
 
 let missionState = {
     currentMission: null,
@@ -27,7 +27,6 @@ async function connectWallet() {
         }
         walletStatus.textContent = `Billetera conectada: ${addresses[0].slice(0, 10)}...`;
 
-        // Obtener NFTs desde el backend
         const response = await fetch(`https://mythical-tcg-backend.vercel.app/api/nfts?address=${addresses[0]}`);
         const nfts = await response.json();
         if (nfts.length === 0) {
@@ -36,12 +35,12 @@ async function connectWallet() {
         }
         defaultCards = nfts.map((nft, index) => ({
             id: index + 1,
-            name: nft.asset_name || `NFT ${index + 1}`,
+            name: nft.asset_name,
             attack: 50,
             defense: 50,
             magic: 50,
             rarity: "Rara",
-            image: "https://picsum.photos/200/150?random=" + (index + 1) // Cambiar por la URL real de la imagen del NFT si existe
+            image: nft.image || `https://picsum.photos/200/150?random=${index + 1}` // Usa la imagen del NFT o una placeholder
         }));
         displayCards(defaultCards);
     } catch (error) {
