@@ -27,7 +27,11 @@ async function connectWallet() {
         }
         walletStatus.textContent = `Billetera conectada: ${addresses[0].slice(0, 10)}...`;
 
-        const response = await fetch(`/api/nfts?address=${addresses[0]}`); // Usamos una URL relativa porque el frontend y backend están en el mismo dominio
+        const response = await fetch(`https://mythical-tcg-backend.vercel.app/api/nfts?address=${addresses[0]}`);
+        if (!response.ok) {
+            throw new Error(`Error del servidor: ${response.status} ${response.statusText}`);
+        }
+
         const nfts = await response.json();
         if (nfts.length === 0) {
             cardList.innerHTML = '<p>No se encontraron NFTs con tu Policy ID.</p>';
