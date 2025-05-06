@@ -1,2 +1,2 @@
-FlappyBird
-FlappyBird by AI
+Mythical 
+Mythical by AI
