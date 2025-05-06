@@ -1,0 +1,5 @@
+{
+    "dependencies": {
+        "@blockfrost/blockfrost-js": "^5.5.0"
+    }
+}
