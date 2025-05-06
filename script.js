@@ -27,7 +27,7 @@ async function connectWallet() {
         }
         walletStatus.textContent = `Billetera conectada: ${addresses[0].slice(0, 10)}...`;
 
-        const response = await fetch(`https://mythical-tcg-backend.vercel.app/api/nfts?address=${addresses[0]}`);
+        const response = await fetch(`/api/nfts?address=${addresses[0]}`); // Usamos una URL relativa porque el frontend y backend están en el mismo dominio
         const nfts = await response.json();
         if (nfts.length === 0) {
             cardList.innerHTML = '<p>No se encontraron NFTs con tu Policy ID.</p>';
@@ -40,7 +40,7 @@ async function connectWallet() {
             defense: 50,
             magic: 50,
             rarity: "Rara",
-            image: nft.image || `https://picsum.photos/200/150?random=${index + 1}` // Usa la imagen del NFT o una placeholder
+            image: nft.image || `https://picsum.photos/200/150?random=${index + 1}`
         }));
         displayCards(defaultCards);
     } catch (error) {
