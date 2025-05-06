@@ -1,4 +1,6 @@
 {
+    "name": "mythical-game",
+    "version": "1.0.0",
     "dependencies": {
         "@blockfrost/blockfrost-js": "^5.5.0"
     }
