@@ -18,5 +18,15 @@
                 { "key": "Access-Control-Allow-Headers", "value": "Content-Type" }
             ]
         }
+    ],
+    "builds": [
+        {
+            "src": "api/nfts.js",
+            "use": "@vercel/node"
+        },
+        {
+            "src": "index.html",
+            "use": "@vercel/static"
+        }
     ]
 }
